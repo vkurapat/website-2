@@ -1,0 +1,39 @@
+---
+title: "Billboard Graphic"
+execute:
+  echo: false
+---
+
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+```
+
+```{r}
+data("billboard", package = "tidyr")
+
+billboard_long <- billboard |>
+  pivot_longer(cols = starts_with("wk"),
+               names_to = "week",
+               values_to = "rank",
+               values_drop_na = TRUE) |>
+  mutate(week = as.integer(gsub("wk", "", week)))
+
+top_songs <- billboard_long |>
+  group_by(artist, track) |>
+  summarize(weeks = n(), peak = min(rank), .groups = "drop") |>
+  arrange(peak, desc(weeks)) |>
+  slice(1:5)
+
+billboard_long |>
+  filter(track %in% top_songs$track) |>
+  ggplot(aes(x = week, y = rank, color = track)) +
+  geom_line(linewidth = 1) +
+  scale_y_reverse() +
+  labs(title = "Top 5 Billboard Songs by Peak Rank",
+       x = "Week", y = "Rank", color = "Track") +
+  theme_minimal()
+```
+
+
+
+
