@@ -2,4 +2,8 @@
 title: "About"
 ---
 
-About this site
+## About Me
+
+My name is **Var Kurapati**, and I graduated from *University of California, Santa Cruz*.
+
+[Kane's Free Data Science Bootcamp](https://bootcamp.davidkane.info)
